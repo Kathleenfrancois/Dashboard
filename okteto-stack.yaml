@@ -7,16 +7,16 @@ services:
     ports:
       - 8080:8080
     environment:
-      - DB_HOST=postgres://katmfran:katmfran1@postgres:5432/katfrancois
+      - DB_HOST=postgres://pguser:pgpass@postgres:5432/pgdb
       - secret=dev
   postgresql:
     image: bitnami/postgresql:latest
     ports:
       - 5432
     environment:
-      - POSTGRES_USER=katmfran
-      - POSTGRES_PASSWORD=katmfran1
-      - POSTGRES_DB=katfrancois
+      - katmfran=pguser
+      - katmfran1=pgpass
+      - katfrancois=pgdb
     volumes:
       - data:/bitnami/postgresql
 volumes:
