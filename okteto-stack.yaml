@@ -7,16 +7,16 @@ services:
     ports:
       - 8080:8080
     environment:
-      - DB_HOST=postgres://pguser:pgpass@postgres:5432/pgdb
+      - DB_HOST=postgres://kmf:kmfpass@postgres:5432/kmfdb
       - secret=dev
   postgresql:
     image: bitnami/postgresql:latest
     ports:
       - 5432
     environment:
-      - POSTGRES_USER=pguser
-      - POSTGRES_PASSWORD=pgpass
-      - POSTGRES_DB=pgdb
+      - POSTGRES_USER=kmf
+      - POSTGRES_PASSWORD=kmfpass
+      - POSTGRES_DB=kmfdb
     volumes:
       - data:/bitnami/postgresql
 volumes:
