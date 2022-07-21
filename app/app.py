@@ -1,8 +1,20 @@
-from fastapi import FastAPI
+from fastapi import FastAPI , Depends
+from sqlalchemy . orm import Session
 
-app = FastAPI ()
+from . import crud, models
+from .database import SessionLocal, engine
+
+models.Base.metadata.create_all(bind=engine)
+app = FastAPI()
+
+def get_db():
+db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 @app.get("/")
-def welcome() :
-    x = {"message": "HELLO Kathleen!!! Welcome to fastAPI!!"}
+def welcome(db: Session=Depends(get_db)):
+    x = crud.get_salary(db)
     return x
