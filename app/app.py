@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Depends
-from sqlalchemy . orm import Session
+from sqlalchemy.orm import Session
 
 from . import crud, models
 from .database import SessionLocal, engine
