@@ -8,7 +8,7 @@ models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 def get_db():
-db = SessionLocal()
+    db = SessionLocal()
     try:
         yield db
     finally:
