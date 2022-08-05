@@ -5,8 +5,8 @@ from . import crud, models
 from .database import SessionLocal, engine
 
 from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import staticfiles
-from fastapi.templating import JinjaTemplates
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
 import plotly.express as px
 import pandas as pd
