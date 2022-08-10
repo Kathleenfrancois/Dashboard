@@ -16,6 +16,7 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 templates = Jinja2Templates(directory="templates")
+
 def get_db():
     db = SessionLocal()
     try:
@@ -24,6 +25,6 @@ def get_db():
         db.close()
 
 @app.get("/")
-async def welcome(request: Request , db: Session=Depends(get_db)):
-    x = crud.get_salary(db)
-    return templates . TemplateResponse("chart .html" , {" request" : request})
+async def welcome(request: Request, db: Session=Depends(get_db)):
+    x=crud.get_salary(db)
+    return templates.TemplateResponse("chart.html", {"request": request})
