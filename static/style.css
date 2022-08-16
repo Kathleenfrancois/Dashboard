@@ -4,6 +4,7 @@
   grid-template-rows: 200px 200px;
   gap: 5px;
 }
+
 .item {
   background: light grey;
   text-align: center;
