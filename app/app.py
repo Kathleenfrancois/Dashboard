@@ -98,6 +98,5 @@ x='Positions', y='Salary', color_discrete_sequence=['red'])
         margin=dict(l=0, r=0, t=0, b=0))
     pospie = figpie.to_html(full_html=False, include_plotlyjs='cdn')
 
-    return templates.TemplateResponse("chart.html", {"request": request,
-"top10":top10, "team10":team10,
-"teamsalary":teamsalary,"possalary":possalary,"possalary2":possalary2,"pospie":pospie})
+    return templates.TemplateResponse("chart.html", {"request": request,"top10":top10, "team10":team10,
+    "teamsalary":teamsalary,"possalary":possalary,"possalary2":possalary2,"pospie":pospie})
