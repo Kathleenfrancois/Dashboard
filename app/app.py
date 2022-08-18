@@ -60,6 +60,7 @@ color='PositionS').update_xaxes(categoryorder="total descending")
         font=dict(size=5),
         margin=dict(l=0, r=0, t=0, b=0))
     teamsalary = figteam.to_html(full_html=False, include_plotlyjs='cdn')
+
     pos10 = dfteam.groupby('Positions')
 ['Salary'].mean().sort_values(ascending=False).head(10)
     pos10 = pos10.reset_index()
