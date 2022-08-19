@@ -14,4 +14,5 @@ class Project(Base):
     state= Column(String, unique=True, index=True)
     total = Column(Numeric)
     hom = Column(Numeric)
+    sui = Column(Numeric)
     ranks= Column(Numeric)
