@@ -26,66 +26,66 @@ def get_db():
 
 @app.get("/")
 async def welcome(request: Request, db: Session=Depends(get_db)):
-    x=crud.get_salary(db)
-    df =pd.DataFrame.from_records(x,columns=['Player','Positions','Team','Salary'])
+    x=crud.get_Project(db)
+    df =pd.DataFrame.from_records(x,columns=['State','Total','Hom','Sui', 'Ranks'])
     px. defaults.width = 266
     px. defaults.height = 200
 
-    fig = px.bar(df.head(10),x='Player', y='Salary',color='Positions').update_xaxes(categoryorder="total descending")
-    fig = px.bar(df.head(10),x='Player', y='Salary',title='Top 10 Paid NFL Players')
+    fig = px.bar(df.head(10),x='State', y='Total',color='Ranks').update_xaxes(categoryorder="total descending")
+    fig = px.bar(df.head(10),x='State', y='Total',title='Top 10 States w/ Gun Releated Deaths')
     fig.update_layout( yaxis = dict( tickfont = dict(size=5)),
         xaxis = dict( tickfont = dict(size=5)),
         font=dict(size=5),
         margin=dict(l=0, r=0, t=0, b=0))
     top10=fig.to_html(full_html=False, include_plotlyjs='cdn')
 
-    dfteam = df.groupby('Team')['Salary'].sum()
+    dfteam = df.groupby('State')['Total'].sum()
     dfteam = dfteam.reset_index()
-    dfteam = dfteam.sort_values('Salary', ascending=False).head(10)
+    dfteam = dfteam.sort_values('Total', ascending=False).head(10)
 
-    fig10 = px.bar(dfteam, x='Team', y='Salary')
+    fig10 = px.bar(dfteam, x='State', y='Hom')
     fig10.update_layout( yaxis = dict( tickfont = dict(size=5)),
         xaxis = dict( tickfont = dict(size=5)),
         font=dict(size=5),
         margin=dict(l=0, r=0, t=0, b=0))
     team10 = fig10.to_html(full_html=False, include_plotlyjs='cdn')
 
-    dfteam = df.loc[df['Team'].isin(dfteam.Team)]
-    figteam = px.bar(dfteam, x='Team', y='Salary',color='Positions').update_xaxes(categoryorder="total descending")
+    dfteam = df.loc[df['State'].isin(dfteam.State)]
+    figteam = px.bar(dfteam, x='State', y='Total',color='Ranks').update_xaxes(categoryorder="total descending")
     figteam.update_layout(yaxis = dict(tickfont = dict(size=5)),
         xaxis = dict(tickfont = dict(size=5)),
         font=dict(size=5),
         margin=dict(l=0, r=0, t=0, b=0))
     teamsalary = figteam.to_html(full_html=False, include_plotlyjs='cdn')
 
-    pos10 = dfteam.groupby('Positions')['Salary'].mean().sort_values(ascending=False).head(10)
+    pos10 = dfteam.groupby('State')['Sui'].mean().sort_values(ascending=False).head(10)
     pos10 = pos10.reset_index()
-    figpos = px.box(dfteam.loc[dfteam['Positions'].isin(pos10.Positions)],x='Positions', y='Salary')
+    figpos = px.box(dfteam.loc[dfteam['State'].isin(pos10.State)],x='State', y='Total')
     figpos.update_layout(yaxis = dict(tickfont = dict(size=5)),
         xaxis = dict(tickfont = dict(size=5)),
         font=dict(size=5),
         margin=dict(l=0, r=0, t=0, b=0))
     possalary = figpos.to_html(full_html=False, include_plotlyjs='cdn')
 
-    bottom10 = df.groupby('Team')['Salary'].sum()
+    bottom10 = df.groupby('State')['Total'].sum()
     bottom10 = bottom10.reset_index()
-    bottom10 = dfteam.sort_values('Salary', ascending=False).tail(10)
-    dfteam = df.loc[df['Team'].isin(bottom10.Team)]
+    bottom10 = dfteam.sort_values('State', ascending=False).tail(10)
+    dfteam = df.loc[df['Total'].isin(bottom10.Total)]
 
-    pos10 = dfteam.groupby('Positions')['Salary'].mean().sort_values(ascending=False).head(10)
+    pos10 = dfteam.groupby('State')['Hom'].mean().sort_values(ascending=False).head(10)
     pos10 = pos10.reset_index()
-    figpos2 = px.box(dfteam.loc[dfteam['Positions'].isin(pos10.Positions)],x='Positions', y='Salary', color_discrete_sequence=['red'])
+    figpos2 = px.box(dfteam.loc[dfteam['State'].isin(pos10.Positions)],x='State', y='Hom', color_discrete_sequence=['red'])
     figpos2.update_layout(yaxis = dict(tickfont = dict(size=5)),
         xaxis = dict(tickfont = dict(size=5)),
         font=dict(size=5),
         margin=dict(l=0, r=0, t=0, b=0))
     possalary2 = figpos2.to_html(full_html=False, include_plotlyjs='cdn')
 
-    dfteam = df.groupby('Positions')['Salary'].mean()
+    dfteam = df.groupby('State')['Ranks'].mean()
     dfteam = dfteam.reset_index()
-    dfteam = dfteam.sort_values('Salary', ascending=False)
+    dfteam = dfteam.sort_values('Ranks', ascending=False)
 
-    figpie = px.pie(dfteam, values='Salary', names='Positions')
+    figpie = px.pie(dfteam, values='Ranks', names='State')
     figpie.update_layout(yaxis = dict(tickfont = dict(size=5)),
         xaxis = dict(tickfont = dict(size=5)),
         font=dict(size=5),
