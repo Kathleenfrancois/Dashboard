@@ -27,12 +27,12 @@ def get_db():
 @app.get("/")
 async def welcome(request: Request, db: Session=Depends(get_db)):
     x=crud.get_Project(db)
-    df =pd.DataFrame.from_records(x,columns=['State','Total','Hom','Sui', 'Ranks'])
+    df =pd.DataFrame.from_records(x,columns=['State','Total','Hom','Sui','Ranks'])
     px. defaults.width = 266
     px. defaults.height = 200
 
-    fig = px.bar(df.head(10),x='State', y='Total',color='Ranks').update_xaxes(categoryorder="total descending")
-    fig = px.bar(df.head(10),x='State', y='Total',title='Top 10 States w/ Gun Releated Deaths')
+    fig = px.bar(df.head(10),x='State', y='Ranks',color='Ranks').update_yaxes(categoryorder="total descending")
+    fig = px.bar(df.head(10),x='State', y='Ranks',title='Top 10 States w/ Gun Releated Deaths')
     fig.update_layout( yaxis = dict( tickfont = dict(size=5)),
         xaxis = dict( tickfont = dict(size=5)),
         font=dict(size=5),
@@ -43,7 +43,7 @@ async def welcome(request: Request, db: Session=Depends(get_db)):
     dfteam = dfteam.reset_index()
     dfteam = dfteam.sort_values('Total', ascending=False).head(10)
 
-    fig10 = px.bar(dfteam, x='State', y='Hom')
+    fig10 = px.bar(dfteam, x='State', y='Total')
     fig10.update_layout( yaxis = dict( tickfont = dict(size=5)),
         xaxis = dict( tickfont = dict(size=5)),
         font=dict(size=5),
@@ -74,18 +74,18 @@ async def welcome(request: Request, db: Session=Depends(get_db)):
 
     pos10 = dfteam.groupby('State')['Hom'].mean().sort_values(ascending=False).head(10)
     pos10 = pos10.reset_index()
-    figpos2 = px.box(dfteam.loc[dfteam['State'].isin(pos10.Positions)],x='State', y='Hom', color_discrete_sequence=['red'])
+    figpos2 = px.box(dfteam.loc[dfteam['State'].isin(pos10.Hom)],x='State', y='Hom', color_discrete_sequence=['red'])
     figpos2.update_layout(yaxis = dict(tickfont = dict(size=5)),
         xaxis = dict(tickfont = dict(size=5)),
         font=dict(size=5),
         margin=dict(l=0, r=0, t=0, b=0))
     possalary2 = figpos2.to_html(full_html=False, include_plotlyjs='cdn')
 
-    dfteam = df.groupby('State')['Ranks'].mean()
+    dfteam = df.groupby('State')['Ranks'].head(10)
     dfteam = dfteam.reset_index()
     dfteam = dfteam.sort_values('Ranks', ascending=False)
 
-    figpie = px.pie(dfteam, values='Ranks', names='State')
+    figpie = px.pie(dfteam, values='Ranks', names='Ranks')
     figpie.update_layout(yaxis = dict(tickfont = dict(size=5)),
         xaxis = dict(tickfont = dict(size=5)),
         font=dict(size=5),
